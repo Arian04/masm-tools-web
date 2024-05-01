@@ -1,0 +1,13 @@
+body {
+  /* Layout */
+  margin: 40px auto;
+  max-width: 650px;
+
+  /* Font/Text */
+  font-size: 18px;
+  line-height: 1.6;
+
+  /* Colors */
+  color: #444;
+  background-color: #eeeeee;
+}

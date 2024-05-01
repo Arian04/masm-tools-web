@@ -15,7 +15,10 @@ jobs:
       - uses: docker/setup-buildx-action@v3
 
       - name: Create the HTML documentation directory
-        run: docker build --output type=local,dest=out .
+        run: docker build --output type=local,dest=out/irvine .
+
+      - name: Move root site files to root of output artifact
+        run: mv root/* out/
 
       - name: Upload artifact for deployment
         id: upload-artifact
