@@ -1,0 +1,40 @@
+name: build and deploy documentation site
+
+on:
+  push:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # Build required artifacts
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Create the HTML documentation directory
+        run: docker build --output type=local,dest=out .
+
+      - name: Upload artifact for deployment
+        id: upload-artifact
+        uses: actions/upload-pages-artifact@main
+        with:
+          path: out
+
+  # Deploy site
+  deploy:
+    needs: build
+    permissions:
+      contents: read
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
