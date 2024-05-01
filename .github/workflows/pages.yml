@@ -17,6 +17,9 @@ jobs:
       - name: Create the HTML documentation directory
         run: docker build --output type=local,dest=out/irvine .
 
+      - name: Move root site files to root of output artifact
+        run: mv root/* out/
+
       - name: Upload artifact for deployment
         id: upload-artifact
         uses: actions/upload-pages-artifact@main
