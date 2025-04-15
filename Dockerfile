@@ -7,9 +7,7 @@ ARG OUT_DIR=/out
 FROM debian:bookworm-slim AS download_extract_zip
 
 # I know it says it's an exe, but it's really a self extracting zip file
-ARG ZIP_URL=http://www.asmirvine.com/files/IrvineLibHelp.exe
-ARG CHECKSUM_TYPE=sha256
-ARG CHECKSUM=b373cbff93e0e8836c85ac4ed458a4302dee51e2fa888915f8e8b60f323a1e13
+ARG ZIP_PATH=./data/IrvineLibHelp.exe
 ARG OUTPUT_ZIP=docs.zip
 ARG CHM_FILENAME
 
@@ -24,8 +22,7 @@ RUN apt-get update && \
 
 WORKDIR /build
 
-ADD --checksum=${CHECKSUM_TYPE}:${CHECKSUM} \
-	${ZIP_URL} \
+COPY ${ZIP_PATH} \
 	${OUTPUT_ZIP}
 
 RUN unzip -j ${OUTPUT_ZIP} && \
